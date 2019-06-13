@@ -56,9 +56,83 @@ public class Gobang {
 	 * @param pos the position of player or AI make just now.
 	 * @return 正数代表player胜利，负数代表AI胜利，0代表游戏继续。
 	 */
-	private int judge(int[][] pos) {
+	private int judge(int posX, int posY) {
 		//正数代表player胜利，负数代表AI胜利，0代表游戏继续。
 		int judgement = 0;
+		//用于连续计算某个方向有多少个棋子。
+		int contiuneNum = 0;
+		//判断3点方向和9点方向
+		for(int i=0; (posX+i>0 && posX+i<BRD_WID); --i)
+		{
+			if (nBoard[posX][posY]!=nBoard[posX+i][posY])
+				break;
+			else
+				++contiuneNum;
+		}
+		for(int i=0; (posX+i>0 && posX+i<BRD_WID); ++i)
+		{
+			if (nBoard[posX][posY]!=nBoard[posX+i][posY])
+				break;
+			else
+				++contiuneNum;
+		}
+		if (contiuneNum >=5)
+			judgement = 1;
+				
+		//判断0点方向和6点方向
+		for(int j=0; (posX+j>0 && posX+j<BRD_WID); --j)
+		{
+			if (nBoard[posX][posY]!=nBoard[posX][posY+j])
+				break;
+			else
+				++contiuneNum;
+		}
+		for(int j=0; (posX+j>0 && posX+j<BRD_WID); ++j)
+		{
+			if (nBoard[posX][posY]!=nBoard[posX][posY+j])
+				break;
+			else
+				++contiuneNum;
+		}
+		if (contiuneNum >=5)
+			judgement = 1;
+		
+		//判断左上和右下45度角
+		for(int i=0, j=0; (posX+i>0 && posX+i<BRD_WID)&&(posY+j>0 && posY+j<BRD_WID); --i,++j)
+		{
+			if (nBoard[posX][posY]!=nBoard[posX+i][posY+j])
+				break;
+			else
+				++contiuneNum;
+		}
+		for(int i=0, j=0; (posX+i>0 && posX+i<BRD_WID)&&(posY+j>0 && posY+j<BRD_WID); ++i,--j)
+		{
+			if (nBoard[posX][posY]!=nBoard[posX+i][posY+j])
+				break;
+			else
+				++contiuneNum;
+		}
+		if (contiuneNum >=5)
+			judgement = 1;
+		
+		//判断左下和右上45度角
+		for(int i=0, j=0; (posX+i>0 && posX+i<BRD_WID)&&(posY+j>0 && posY+j<BRD_WID); --i,--j)
+		{
+			if (nBoard[posX][posY]!=nBoard[posX+i][posY+j])
+				break;
+			else
+				++contiuneNum;
+		}
+		for(int i=0, j=0; (posX+i>0 && posX+i<BRD_WID)&&(posY+j>0 && posY+j<BRD_WID); ++i,++j)
+		{
+			if (nBoard[posX][posY]!=nBoard[posX+i][posY+j])
+				break;
+			else
+				++contiuneNum;
+		}
+		if (contiuneNum >=5)
+			judgement = 1;
+		
 		return judgement;
 		
 	}
@@ -76,9 +150,7 @@ public class Gobang {
 			if (0 != game.aiTurn()) {
 				break;
 			}
-			
 		}
-		
 	}
 
 	/**
@@ -96,6 +168,7 @@ public class Gobang {
 	 * @return 0表示游戏继续，其他表示游戏已定胜负。
 	 */
 	private int playerTurn() {
+		
 		return 0;
 		// TODO 自动生成的方法存根
 		
